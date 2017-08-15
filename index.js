@@ -15,6 +15,7 @@ var reqfields = [
 //      + FormData (doesn't set content type so that browser will set as appropriate)
 //  - method: 'GET', 'POST', etc. Defaults to 'GET' or 'POST' based on body
 //  - cors: If your using cross-origin, you will need this true for IE8-9
+//  - responseXML: Set this to true if you want to receive a XML tree rather than text
 //
 // The following parameters are passed onto the xhr object.
 // IMPORTANT NOTE: The caller is responsible for compatibility checking.
@@ -54,7 +55,7 @@ exports.ajax = function (params, callback) {
     return function () {
       if (!called) {
         callback(req.status === undefined ? statusCode : req.status,
-                 req.status === 0 ? "Error" : (req.response || req.responseText || responseText),
+                 req.status === 0 ? "Error" : (params.responseXML ? req.responseXML : (req.response || req.responseText || responseText)),
                  req)
         called = true
       }
